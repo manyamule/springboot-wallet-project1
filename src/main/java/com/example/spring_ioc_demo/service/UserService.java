@@ -24,7 +24,12 @@ public class UserService {
         UserEntity user = userRepository.findById(senderId)
                 .orElseThrow(() -> new RuntimeException("Sender not found"));
 
+        if (user.getBalance() < amount) {
+            throw new RuntimeException("Insufficient balance");
+        }
+
         user.setBalance(user.getBalance() - amount);
+
 
         userRepository.save(user);
     }
